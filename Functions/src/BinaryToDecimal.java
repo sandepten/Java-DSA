@@ -5,6 +5,9 @@ public class BinaryToDecimal {
         int decNo = 0;
         int i = 0;
         while (a > 0) {
+            if (a % 10 != 0 && a % 10 != 1) {
+                throw new Error("Invalid binary number!");
+            }
             decNo += (a % 10) * ((int) (Math.pow(2, i)));
             a /= 10;
             i++;
