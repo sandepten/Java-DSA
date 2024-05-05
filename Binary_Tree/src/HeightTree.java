@@ -1,4 +1,4 @@
-public class BinaryTree {
+public class HeightTree {
     static class Node {
         int data;
         Node left;
@@ -27,32 +27,14 @@ public class BinaryTree {
             return newNode;
         }
 
-        public static void preorderPrint(Node root) {
+        public int heightOfTree(Node root) {
             if (root == null) {
-                System.out.print(-1 + " ");
-                return;
+                return 0;
             }
-            System.out.print(root.data + " ");
-            preorderPrint(root.left);
-            preorderPrint(root.right);
-        }
+            int leftHeight = heightOfTree(root.left);
+            int rightHeight = heightOfTree(root.right);
 
-        public static void inorderPrint(Node root) {
-            if (root == null) {
-                return;
-            }
-            inorderPrint(root.left);
-            System.out.print(root.data + " ");
-            inorderPrint(root.right);
-        }
-
-        public void postOrderPrint(Node root) {
-            if (root == null) {
-                return;
-            }
-            postOrderPrint(root.left);
-            postOrderPrint(root.right);
-            System.out.print(root.data + " ");
+            return Math.max(leftHeight, rightHeight) + 1;
         }
     }
 
@@ -61,6 +43,6 @@ public class BinaryTree {
 
         BTree tree = new BTree();
         Node root = tree.buildTree(nodes);
-        tree.postOrderPrint(root);
+        System.out.println(tree.heightOfTree(root));
     }
 }
