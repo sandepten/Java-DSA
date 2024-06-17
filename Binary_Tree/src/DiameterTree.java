@@ -11,6 +11,16 @@ public class DiameterTree {
         }
     }
 
+    static class Info {
+        int diameter;
+        int height;
+
+        Info(int diameter, int height) {
+            this.diameter = diameter;
+            this.height = height;
+        }
+    }
+
     static class BTree {
         static int idx = -1;
 
@@ -51,6 +61,21 @@ public class DiameterTree {
 
             return Math.max(selfDiamter, Math.max(leftDiameter, rightDiameter));
         }
+
+        public Info diameterOptimized(Node root) {
+            if (root == null) {
+                return new Info(0, 0);
+            }
+
+            Info left = diameterOptimized(root.left);
+            Info right = diameterOptimized(root.right);
+
+            int selfDiamter = left.height + right.height + 1;
+
+            int diameter = Math.max(selfDiamter, Math.max(left.diameter, right.diameter));
+            int height = Math.max(left.height, right.height) + 1;
+            return new Info(diameter, height);
+        }
     }
 
     public static void main(String[] args) {
@@ -59,5 +84,6 @@ public class DiameterTree {
         BTree tree = new BTree();
         Node root = tree.buildTree(nodes);
         System.out.println(tree.diameter(root));
+        System.out.println((tree.diameterOptimized(root)).diameter);
     }
 }
