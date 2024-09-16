@@ -38,21 +38,38 @@ public class SubtreeOfAnotherTree {
             return newNode;
         }
 
-        public int[] destructureTree(Node root) {
-            if (root == null) {
-                return new int[-1];
+        public static boolean isIdentical(Node root, Node subRoot) {
+            if (root == null && subRoot == null) {
+                return true;
+            } else if (root == null || subRoot == null || root.data != subRoot.data) {
+                return false;
             }
-            int[] leftArray = destructureTree(root.left);
-            int[] rightArray = destructureTree(root.right);
 
-            return new int[];
+            if (!isIdentical(root.left, subRoot.left)) {
+                return false;
+            }
+            if (!isIdentical(root.right, subRoot.right)) {
+                return false;
+            }
+
+            return true;
         }
 
-        public boolean subTreeFinder(Node root, Node subRoot) {
-            int nodes[] = destructureTree(root);
-            int subNodes[] = destructureTree(subRoot);
+        public static boolean isSubtree(Node root, Node subRoot) {
+            if (root == null) {
+                return false;
+            }
 
-            return false;
+            if (root.data == subRoot.data) {
+                if (isIdentical(root, subRoot)) {
+                    return true;
+                }
+            }
+
+            boolean leftAns = isIdentical(root.left, subRoot);
+            boolean rightAns = isIdentical(root.right, subRoot);
+
+            return leftAns || rightAns;
         }
     }
 
@@ -64,5 +81,7 @@ public class SubtreeOfAnotherTree {
         int subNodes[] = { 2, 4, -1, -1, 5, -1, -1 };
         BTree subTree = new BTree();
         Node subRoot = subTree.buildTree(subNodes);
+
+        System.out.println(tree.isSubtree(root, subRoot));
     }
 }
