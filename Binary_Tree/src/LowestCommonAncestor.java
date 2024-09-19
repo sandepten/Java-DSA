@@ -44,13 +44,6 @@ public class LowestCommonAncestor {
             return newNode;
         }
 
-        public static void arrayListPrinter(ArrayList<Node> list) {
-            for (int i = 0; i < list.size(); i++) {
-                System.out.print(list.get(i).data + " ");
-            }
-            System.out.println();
-        }
-
         public static boolean getPath(Node root, int target, ArrayList<Node> path) {
             if (root == null) {
                 return false;
@@ -86,6 +79,24 @@ public class LowestCommonAncestor {
             }
             return n1Path.get(i - 1).data;
         }
+
+        public static Node efficientLCA(Node root, int n1, int n2) {
+            if (root == null || root.data == n1 || root.data == n2) {
+                return root;
+            }
+
+            Node leftLca = efficientLCA(root.left, n1, n2);
+            Node rightLca = efficientLCA(root.right, n1, n2);
+
+            if (rightLca == null) {
+                return leftLca;
+            }
+            if (leftLca == null) {
+                return rightLca;
+            }
+
+            return root;
+        }
     }
 
     public static void main(String[] args) {
@@ -93,6 +104,7 @@ public class LowestCommonAncestor {
         // int nodes[] = { 1, 2, -1, 4, -1, 5, -1, 6, -1, -1, 3, -1, -1 };
         BTree tree = new BTree();
         Node root = tree.buildTree(nodes);
-        System.out.println(BTree.findLowestCommonAncestor(root, 4, 5));
+        // System.out.println(BTree.findLowestCommonAncestor(root, 4, 5));
+        System.out.println(BTree.efficientLCA(root, 4, 5).data);
     }
 }
